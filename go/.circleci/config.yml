@@ -15,7 +15,7 @@ jobs:
           name: Install dependencies
           command: |
             git config --global url."git@github.com:".insteadOf "https://github.com/"
-            make deps
+            make dep
 
 workflows:
   version: 2
