@@ -1,0 +1,27 @@
+version: 2
+
+defaults: &defaults
+  working_directory: /go/src/github.com/madecomfy/service
+  docker:
+    - image: 781785881662.dkr.ecr.ap-southeast-2.amazonaws.com/go:1.10-aws
+
+jobs:
+  test-deploy:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+            git config --global url."git@github.com:".insteadOf "https://github.com/"
+            make deps
+
+workflows:
+  version: 2
+  deploy-workflow:
+    jobs:
+      - test-deploy:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
